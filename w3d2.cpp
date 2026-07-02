@@ -1,8 +1,41 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 using namespace std;
+
+bool canConstruct(string ransomNote, string magazine)
+{
+    unordered_map<char, int> wordBank{};
+
+    for (const char c : magazine)
+    {
+
+        // We can do this because in the absence of an entry, c++ inserts it with a default value. It is a 0 for ints, floats, and doubles
+        wordBank[c]++;
+        // if (wordBank.find(c) == wordBank.end())
+        // {
+        //     wordBank[c] = 1;
+        // }
+        // else
+        // {
+        //     wordBank[c]++;
+        // }
+    }
+
+    for (const char c : ransomNote)
+    {
+        if (wordBank.find(c) == wordBank.end())
+            return false;
+
+        wordBank[c]--;
+        if (wordBank[c] < 0)
+            return false;
+    }
+
+    return true;
+}
 
 int canCompleteCircuit(vector<int> &gas, vector<int> &cost)
 {
@@ -57,7 +90,13 @@ int canCompleteCircuit(vector<int> &gas, vector<int> &cost)
 
 int main(int argc, char *argv[])
 {
-    vector<int> testGas{5, 1, 2, 3, 4};
-    vector<int> testCost{4, 4, 1, 5, 1};
-    cout << canCompleteCircuit(testGas, testCost);
+
+    string testRansom{"action"};
+    string testMagazine("application");
+
+    cout << canConstruct(testRansom, testMagazine);
+
+    // vector<int> testGas{5, 1, 2, 3, 4};
+    // vector<int> testCost{4, 4, 1, 5, 1};
+    // cout << canCompleteCircuit(testGas, testCost);
 }
