@@ -5,6 +5,42 @@
 
 using namespace std;
 
+bool isHappy(int n)
+{
+    vector<int> digitArray{};
+    unordered_map<int, int> seen{};
+
+    while (n != 1)
+    {
+        digitArray.clear();
+        int temp = n;
+        while (temp > 0)
+        {
+            digitArray.push_back(temp % 10);
+            temp /= 10;
+        }
+
+        int newSum{0};
+        for (const int i : digitArray)
+        {
+            newSum += (i * i);
+        }
+
+        if (seen.find(newSum) == seen.end())
+        {
+            seen[newSum] = -1;
+        }
+        else
+        {
+            return false;
+        }
+
+        n = newSum;
+    }
+
+    return true;
+}
+
 int longestConsecutive(vector<int> &nums)
 {
 
@@ -46,6 +82,7 @@ int longestConsecutive(vector<int> &nums)
 int main(int argc, char *argv[])
 {
     vector<int> test{-10, -11, 4};
+    int testNum{210};
 
-    cout << longestConsecutive(test);
+    cout << isHappy(testNum);
 }
