@@ -2,8 +2,54 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <stack>
 
 using namespace std;
+
+// Keep in mind for cases where
+
+// String is all open, with no closes
+
+// String starts with a close
+
+bool isValid(string s)
+{
+    // Check for odds
+    if (s.length() % 2 != 0)
+    {
+        return false;
+    }
+
+    stack<char> letterStack{};
+
+    unordered_map<char, char> mapping{
+        {'(', ')'},
+        {'[', ']'},
+        {'{', '}'}};
+
+    for (const char c : s)
+    {
+        if (c == '(' || c == '[' || c == '{')
+        {
+            letterStack.push(c);
+        }
+        else
+        {
+            if (letterStack.empty() || mapping[letterStack.top()] != c)
+            {
+                return false;
+            }
+            else
+            {
+                letterStack.pop();
+            }
+        }
+    }
+
+    if (letterStack.size() != 0)
+        return false;
+    return true;
+}
 
 int lengthOfLongestSubstring(string s)
 {
@@ -42,6 +88,6 @@ int lengthOfLongestSubstring(string s)
 
 int main(int argc, char *argv[])
 {
-    string test{"abcabcbb"};
-    cout << lengthOfLongestSubstring(test);
+    string test{"){"};
+    cout << isValid(test);
 }
