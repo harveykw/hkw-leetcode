@@ -1,8 +1,65 @@
 #include <iostream>
 #include <vector>
 #include <tuple>
+#include <stack>
+#include <cctype>
 
 using namespace std;
+
+/*
+Reverse polish notation
+
+5 + 6 = 5 6 +
+4 + 2 - 3 = 4 2 + 3 -
+*/
+
+int evalRPN(vector<string> &tokens)
+{
+    int current{};
+    stack<int> intStack{};
+    for (const string &s : tokens)
+    {
+        if (s == "+" || s == "-" || s == "/" || s == "*")
+        {
+            if (intStack.size() < 2)
+            {
+                throw runtime_error("Not enough operands");
+                return -1;
+            }
+
+            int op1, op2;
+            op1 = (intStack.top());
+            intStack.pop();
+            op2 = (intStack.top());
+            intStack.pop();
+
+            char oper = s.at(0);
+            switch (oper)
+            {
+            case '+':
+                intStack.push(op1 + op2);
+                break;
+
+            case '-':
+                intStack.push(op2 - op1);
+                break;
+
+            case '*':
+                intStack.push(op1 * op2);
+                break;
+
+            case '/':
+                intStack.push(op2 / op1);
+                break;
+            }
+        }
+        else
+        {
+            intStack.push(stoi(s));
+        }
+    }
+    return (intStack.top());
+}
 
 /*
 Minstack
@@ -56,12 +113,15 @@ public:
 
 int main(int argc, char *argv[])
 {
-    MinStack stackTest{};
-    stackTest.push(-2);
-    stackTest.push(0);
-    stackTest.push(-3);
-    cout << stackTest.getMin() << endl;
-    stackTest.pop();
-    cout << stackTest.top() << endl;
-    cout << stackTest.getMin() << endl;
+    // MinStack stackTest{};
+    // stackTest.push(-2);
+    // stackTest.push(0);
+    // stackTest.push(-3);
+    // cout << stackTest.getMin() << endl;
+    // stackTest.pop();
+    // cout << stackTest.top() << endl;
+    // cout << stackTest.getMin() << endl;
+
+    vector<string> test{"10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"};
+    cout << evalRPN(test);
 }
