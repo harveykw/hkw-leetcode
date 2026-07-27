@@ -26,6 +26,23 @@ struct TreeNode
 class Solution
 {
 public:
+    bool isSymmetric(TreeNode *root)
+    {
+        if (root == nullptr)
+            return true;
+
+        // If one or both of the children are null. I might not need this actually. This is because the following functions handle null cases.
+        // if ((root->left == nullptr) || (root->right == nullptr))
+        // {
+        //     return (root->left == root->right);
+        // }
+
+        // Lets invert the right one to get its mirror
+        inversion(root->right);
+
+        return isSameTree(root->left, root->right);
+    }
+
     void inversion(TreeNode *root)
     {
         if (root == nullptr)
@@ -127,10 +144,13 @@ int main(int argc, char *argv[])
     TreeNode p3{3};
     TreeNode p1{1, &p2, &p3};
 
-    // TreeNode q2{2};
-    // TreeNode q3{3};
-    // TreeNode q1{1, &q2, &q3};
+    TreeNode q2{2};
+    TreeNode q3{3};
+    TreeNode q1{1, &q3, &q2};
+
+    TreeNode r1{10, &p1, &q1};
 
     Solution sol{};
-    printTreeBFS(sol.invertTree(&p1));
+    // printTreeBFS(sol.invertTree(&p1));
+    cout << sol.isSymmetric(&r1);
 }
