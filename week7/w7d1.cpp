@@ -26,6 +26,23 @@ struct TreeNode
 class Solution
 {
 public:
+    void inversion(TreeNode *root)
+    {
+        if (root == nullptr)
+            return;
+
+        std::swap(root->left, root->right);
+
+        invertTree(root->left);
+        invertTree(root->right);
+    }
+
+    TreeNode *invertTree(TreeNode *root)
+    {
+        inversion(root);
+        return root;
+    }
+
     bool isSameTree(TreeNode *p, TreeNode *q)
     {
 
@@ -76,22 +93,44 @@ public:
     }
 };
 
+void printTreeBFS(TreeNode *root)
+{
+    if (root == nullptr)
+        return;
+
+    queue<TreeNode *> treeQueue{};
+    treeQueue.push(root);
+
+    while (!treeQueue.empty())
+    {
+        auto node = treeQueue.front();
+        if (node->left != nullptr)
+            treeQueue.push(node->left);
+        if (node->right != nullptr)
+            treeQueue.push(node->right);
+
+        treeQueue.pop();
+
+        cout << node->val << ", ";
+    }
+}
+
 int main(int argc, char *argv[])
 {
     TreeNode s3{1};
     TreeNode s1{0, &s3, nullptr};
 
-    TreeNode t3{1};
-    TreeNode t1{0, &t3, nullptr};
+    //     TreeNode t3{1};
+    //     TreeNode t1{0, &t3, nullptr};
 
     TreeNode p2{2};
     TreeNode p3{3};
     TreeNode p1{1, &p2, &p3};
 
-    TreeNode q2{2};
-    TreeNode q3{3};
-    TreeNode q1{1, &q2, &q3};
+    // TreeNode q2{2};
+    // TreeNode q3{3};
+    // TreeNode q1{1, &q2, &q3};
 
     Solution sol{};
-    cout << sol.isSameTree(&t1, &s1);
+    printTreeBFS(sol.invertTree(&p1));
 }
