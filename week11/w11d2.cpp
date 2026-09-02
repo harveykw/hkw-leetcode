@@ -16,7 +16,7 @@ struct TreeNode
 class Solution
 {
 public:
-        void df(TreeNode *root, int currentDepth, int &reportDepth, vector<int> &returnVec)
+    void df(TreeNode *root, int currentDepth, int &reportDepth, vector<int> &returnVec)
     {
         if (root == nullptr)
             return;
