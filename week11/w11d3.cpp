@@ -2,8 +2,9 @@
 #include <queue>
 #include <vector>
 #include <utility>
+#include <numeric>
 
-using std::queue, std::vector, std::pair;
+using std::queue, std::vector, std::pair, std::accumulate;
 
 struct TreeNode
 {
@@ -49,6 +50,20 @@ public:
                 q.push({currentPair.first->right, currentPair.second + 1});
         }
 
+        return returnVec;
+    }
+
+    vector<double> averageOfLevels(TreeNode *root)
+    {
+
+        vector<vector<int>> nodeOrder{levelOrder(root)};
+
+        vector<double> returnVec{};
+        for (const auto &vec : nodeOrder)
+        {
+            double sum = accumulate(vec.begin(), vec.end(), 0.0);
+            returnVec.emplace_back(sum / vec.size());
+        }
         return returnVec;
     }
 };
