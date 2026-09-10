@@ -3,8 +3,16 @@
 #include <sstream>
 #include <string>
 #include <algorithm>
+#include <unordered_set>
 
 using std::vector, std::string;
+
+struct ListNode
+{
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
 
 class Solution
 {
@@ -39,6 +47,32 @@ public:
         }
 
         return returnString;
+    }
+
+    // There is a two pointer technique for determining cycles in linked lists
+
+    bool hasCycle(ListNode *head)
+    {
+
+        if (head == nullptr)
+        {
+            return false;
+        }
+
+        std::unordered_set<ListNode *> visitedSet{};
+
+        while (head->next != nullptr)
+        {
+            visitedSet.insert(head);
+
+            if (visitedSet.find(head->next) != visitedSet.end())
+            {
+                return true;
+            }
+            head = head->next;
+        }
+
+        return false;
     }
 };
 
