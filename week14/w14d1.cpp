@@ -14,6 +14,36 @@ struct ListNode {
 
 class Solution {
  public:
+  ListNode* removeNthFromEnd(ListNode* head, int n) {
+    if (head == nullptr) return nullptr;
+
+    vector<ListNode*> listVec{};
+    ListNode* dummyHead = head;
+
+    while (dummyHead != nullptr) {
+      listVec.push_back(dummyHead);
+      dummyHead = dummyHead->next;
+    }
+
+    int count = listVec.size();
+    int indexOfRemoval = count - n;
+
+    // At head
+    if (indexOfRemoval == 0) {
+      head = head->next;
+      return head;
+    }
+    // At tail
+    if (indexOfRemoval == count - 1) {
+      listVec.at(count - 2)->next = nullptr;
+      return head;
+    }
+
+    // General case
+    listVec.at(indexOfRemoval - 1)->next = listVec.at(indexOfRemoval + 1);
+    return head;
+  }
+
   ListNode* reverseBetween(ListNode* head, int left, int right) {
     if (head == nullptr) return nullptr;
 
